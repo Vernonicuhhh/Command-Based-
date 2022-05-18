@@ -33,7 +33,7 @@ public class Drive  extends SubsystemBase{
         setModuleStates(states);
     }
 
-    private void holdMotors(){
+    public void holdMotors(){
         driveFromChassis(new ChassisSpeeds());
     }
 

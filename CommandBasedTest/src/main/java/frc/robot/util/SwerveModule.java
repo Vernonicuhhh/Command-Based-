@@ -1,4 +1,4 @@
-package frc.robot.Common;
+package frc.robot.util;
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -20,7 +20,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants.ModuleConstants;
-import frc.util.CommonConversions;
 
 public class SwerveModule {
     WPI_TalonFX turnMotor;

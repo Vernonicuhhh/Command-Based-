@@ -28,9 +28,8 @@ public class SwerveModule {
 
     PIDController turnPID;
 
-    CANCoderSimCollection encoderSim;
-    TalonFXSimCollection driveSim;
 
+    ModuleSim sim;
 
        public SwerveModule(int drivePort, int turnPort, int encoderPort, double angleOffset){
         turnPID = new PIDController(.39, 0, 0); 
@@ -58,6 +57,8 @@ public class SwerveModule {
         config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
         config.magnetOffsetDegrees = angleOffset;
         absEncoder.configAllSettings(config);
+
+        sim = new ModuleSim(driveMotor, turnMotor, absEncoder);
     }
 
     public void setState(SwerveModuleState state){
@@ -108,6 +109,10 @@ public class SwerveModule {
     public void overrideMotors(){
         driveMotor.set(ControlMode.PercentOutput,0);
         turnMotor.set(ControlMode.PercentOutput,0);
+    }
+
+    public void updateSim(){
+        sim.simPeriodic();
     }
 
 }

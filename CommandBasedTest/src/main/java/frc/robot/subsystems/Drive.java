@@ -8,18 +8,35 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Common.SwerveModule;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.util.SwerveModule;
 
 public class Drive  extends SubsystemBase{
     
 
-    private SwerveModule frontLeft = DriveConstants.FRONT_LEFT_MODULE;
-    private SwerveModule frontRight = DriveConstants.FRONT_RIGHT_MODULE;
-    private SwerveModule rearLeft = DriveConstants.REAR_LEFT_MODULE;
-    private SwerveModule rearRight = DriveConstants.REAR_RIGHT_MODULE;
+    private SwerveModule frontLeft;
+    private SwerveModule frontRight;
+    private SwerveModule rearLeft; 
+    private SwerveModule rearRight;
 
-    WPI_Pigeon2 gyro = new WPI_Pigeon2(0);
+    private WPI_Pigeon2 gyro;
+
+    public Drive(){
+        frontLeft = DriveConstants.FRONT_LEFT_MODULE;
+        frontRight = DriveConstants.FRONT_RIGHT_MODULE;
+        rearLeft = DriveConstants.REAR_LEFT_MODULE;
+        rearRight = DriveConstants.REAR_RIGHT_MODULE;
+        gyro = new WPI_Pigeon2(0);
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        frontLeft.updateSim();
+        rearLeft.updateSim();
+        frontRight.updateSim();
+        rearRight.updateSim();
+    }
+
 
     public void driveFromChassis(ChassisSpeeds speeds){
         var states = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);

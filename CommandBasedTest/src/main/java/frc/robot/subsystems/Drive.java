@@ -2,11 +2,15 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.util.SwerveModule;
@@ -21,12 +25,28 @@ public class Drive  extends SubsystemBase{
 
     private WPI_Pigeon2 gyro;
 
+    SwerveDriveOdometry odometry;
+
+    Field2d field;
+
     public Drive(){
         frontLeft = DriveConstants.FRONT_LEFT_MODULE;
         frontRight = DriveConstants.FRONT_RIGHT_MODULE;
         rearLeft = DriveConstants.REAR_LEFT_MODULE;
         rearRight = DriveConstants.REAR_RIGHT_MODULE;
         gyro = new WPI_Pigeon2(0);
+
+        odometry = new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, getHeading());
+
+        field = new Field2d();
+    }
+
+    @Override
+    public void periodic() {
+        odometry.update(getHeading(),getModuleStates());
+        //TODO: try update with time method
+
+        field.setRobotPose(getPose());
     }
 
     @Override
@@ -35,7 +55,10 @@ public class Drive  extends SubsystemBase{
         rearLeft.updateSim();
         frontRight.updateSim();
         rearRight.updateSim();
+
+        //TODO: update gyro angle of robot in simulation
     }
+
 
 
     public void driveFromChassis(ChassisSpeeds speeds){
@@ -61,12 +84,24 @@ public class Drive  extends SubsystemBase{
         rearRight.setState(state[3]);
     }
 
+    private SwerveModuleState[] getModuleStates(){
+        return new SwerveModuleState[]{frontLeft.getState(),frontRight.getState(),rearLeft.getState(),rearRight.getState()};
+    }
+
     public Rotation2d getHeading(){
         return  gyro.getRotation2d();
     }
 
     public void resetHeading(){
         gyro.reset();
+    }
+
+    public Pose2d getPose(){
+        return odometry.getPoseMeters();
+    }
+
+    public void setOdometry(Pose2d pose){
+        odometry.resetPosition(pose, getHeading());
     }
     
 }

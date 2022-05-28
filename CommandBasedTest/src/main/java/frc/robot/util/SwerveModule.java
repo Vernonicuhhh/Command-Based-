@@ -35,8 +35,8 @@ public class SwerveModule {
         turnPID = new PIDController(.39, 0, 0); 
         turnPID.enableContinuousInput(-Math.PI, Math.PI);
 
-        driveMotor = new WPI_TalonFX(drivePort,ModuleConstants.SWERVE_CANIVORE_ID);
-        turnMotor = new WPI_TalonFX(turnPort,ModuleConstants.SWERVE_CANIVORE_ID);
+        driveMotor = new WPI_TalonFX(drivePort);
+        turnMotor = new WPI_TalonFX(turnPort);
 
 
         TalonFXConfiguration driveConfig = new TalonFXConfiguration();
@@ -50,7 +50,7 @@ public class SwerveModule {
         turnMotor.setNeutralMode(NeutralMode.Brake);
         turnMotor.setInverted(false);
 
-        absEncoder = new WPI_CANCoder(encoderPort,ModuleConstants.SWERVE_CANIVORE_ID);
+        absEncoder = new WPI_CANCoder(encoderPort);
         absEncoder.configFactoryDefault();
         CANCoderConfiguration config = new CANCoderConfiguration();
         config.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
@@ -76,7 +76,7 @@ public class SwerveModule {
             driveMotor.set(ControlMode.PercentOutput, 0);
         } 
         else 
-        driveMotor.set(ControlMode.Velocity, CommonConversions.metersPerSecToStepsPerDecisec(driveSetpoint),DemandType.ArbitraryFeedForward,driveFFVolts/RobotController.getBatteryVoltage());
+            driveMotor.set(ControlMode.Velocity, CommonConversions.metersPerSecToStepsPerDecisec(driveSetpoint),DemandType.ArbitraryFeedForward,driveFFVolts/RobotController.getBatteryVoltage());
     }
 
 

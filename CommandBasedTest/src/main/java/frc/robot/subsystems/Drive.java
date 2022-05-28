@@ -9,8 +9,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.util.SwerveModule;
@@ -39,6 +39,8 @@ public class Drive  extends SubsystemBase{
         odometry = new SwerveDriveOdometry(DriveConstants.DRIVE_KINEMATICS, getHeading());
 
         field = new Field2d();
+
+        SmartDashboard.putData(field);
     }
 
     @Override
@@ -64,6 +66,7 @@ public class Drive  extends SubsystemBase{
     public void driveFromChassis(ChassisSpeeds speeds){
         var states = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(states, DriveConstants.MAX_TANGENTIAL_VELOCITY);
+        SmartDashboard.putNumber("front Right vel", states[1].speedMetersPerSecond);
         setModuleStates(states);
     }
 

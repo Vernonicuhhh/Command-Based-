@@ -1,35 +1,37 @@
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drive;
 
 public class DriveFieldOriented extends CommandBase {
 
-    private double fwd,str,rot;
     private final Drive drive;
-    
-    private boolean offCetner;
+    private DoubleSupplier fwd,str,rot;
+    private boolean offCenter;
 
     private Translation2d center;
 
-    public DriveFieldOriented(Supplier<Double> fwd, Supplier<Double> str, Supplier<Double> rot, Drive instance){
-        this.fwd = fwd.get();
-        this.str = str.get();
-        this.rot = rot.get();
+    public DriveFieldOriented(DoubleSupplier fwd, DoubleSupplier str, DoubleSupplier rot, Drive instance){
+        this.fwd = fwd;
+        this.str= str;
+        this.rot = rot;
 
         drive = instance;
         addRequirements(drive);
     }
 
-    public DriveFieldOriented(Supplier<Double> fwd, Supplier<Double> str, Supplier<Double> rot,Translation2d center ,Drive instance){
-        this.fwd = fwd.get();
-        this.str = str.get();
-        this.rot = rot.get();
-        offCetner = true;
+    public DriveFieldOriented(DoubleSupplier fwd, DoubleSupplier str, DoubleSupplier rot,Translation2d center ,Drive instance){
+        this.fwd = fwd;
+        this.str = str;
+        this.rot = rot;
+        offCenter = true;
         this.center = center;
 
         drive = instance;
@@ -38,12 +40,14 @@ public class DriveFieldOriented extends CommandBase {
 
     @Override
     public void execute() {
-        applyDeadband();
+       double vx =  modifyInputs(fwd.getAsDouble(),false);
+       double vy =  modifyInputs(str.getAsDouble(),false);
+       double omega = modifyInputs(rot.getAsDouble(), true);
 
-        if(offCetner)
-            drive.driveFromChassis(new ChassisSpeeds(fwd, str, rot), center);
-        else
-            drive.driveFromChassis(new ChassisSpeeds(fwd,str,rot));
+         if(offCenter)
+             drive.driveFromChassis(new ChassisSpeeds(vx, vy, omega), center);
+         else
+             drive.driveFromChassis(new ChassisSpeeds(vx,vy,omega));
     }
 
     @Override
@@ -52,15 +56,19 @@ public class DriveFieldOriented extends CommandBase {
     }
 
 
-    private void applyDeadband(){
-        if(Math.abs(fwd)<.1){
-            fwd = 0;
+    private double modifyInputs(double val, boolean isRot){
+        if(isRot){
+            if(Math.abs(val)<.15){
+                val = 0;
+            }
+            return val*DriveConstants.MAX_TELE_ANGULAR_VELOCITY;
         }
-        if(Math.abs(str)<.1){
-            str = 0;
-        }
-        if(Math.abs(rot)<.15){
-            rot = 0;
+        else{
+            if(Math.abs(val)<.1){
+                val = 0;
+            }
+            return val*DriveConstants.MAX_TELE_TANGENTIAL_VELOCITY;
         }
     }
+
 }

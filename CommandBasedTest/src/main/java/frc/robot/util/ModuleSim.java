@@ -31,8 +31,8 @@ public class ModuleSim {
     }
 
     public void simPeriodic(){
-        driveSim.setInputVoltage(driveCollection.getMotorOutputLeadVoltage());
-        turnSim.setInputVoltage(turnCollection.getMotorOutputLeadVoltage());
+         driveSim.setInputVoltage(driveCollection.getMotorOutputLeadVoltage());
+         turnSim.setInputVoltage(turnCollection.getMotorOutputLeadVoltage());
 
         driveSim.update(.02);
         turnSim.update(.02);
@@ -40,7 +40,6 @@ public class ModuleSim {
         updateSensors();
         
         setBusVoltages();
-
     }
 
     private void updateSensors(){

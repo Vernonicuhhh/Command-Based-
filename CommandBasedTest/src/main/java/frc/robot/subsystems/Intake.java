@@ -22,9 +22,13 @@ public class Intake extends SubsystemBase{
 
     public void intake(boolean useVel){
         if(useVel)
-            setIntakePercent(IntakeConstants.INTAKE_SPEED);
-        else
             setIntakeVelocity(3000);
+        else
+            setIntakePercent(IntakeConstants.INTAKE_SPEED);
+    }
+
+    public void stopIntake(){
+        setIntakePercent(0);
     }
 
     public void toggleIntake(){
@@ -44,7 +48,6 @@ public class Intake extends SubsystemBase{
     }
 
     private void setIntakeVelocity(double velRPM){
-        //TODO: add FF for intake
         intake.set(ControlMode.Velocity, CommonConversions.RPMToStepsPerDecisec(velRPM));
     }
 }

@@ -75,18 +75,39 @@ public interface Constants {
         public static final int TIMEOUT_MS = 25;
     }
 
-        public static final class IntakeConstants{
-            public static final int DEVICE_ID_INTAKE = 32;
-            public static final int DEVICE_ID_INDEXER = 21;
-            public static final double OPEN_LOOP_RAMP = .2;
-            public static final double INTAKE_SPEED = 1;
-            public static final double INDEX_SPEED = 0.85;
-            public static final boolean STOWED = false;
+    public static final class IntakeConstants{
+        public static final int DEVICE_ID_INTAKE = 32;
+        public static final double OPEN_LOOP_RAMP = .2;
+        public static final double INTAKE_SPEED = 1;
+        public static final boolean STOWED = false;
+        public static final Value INTAKE_DOWN = Value.kReverse;
+        public static final Value INTAKE_UP = Value.kForward;
 
-            public static final Value INTAKE_DOWN = Value.kReverse;
-            public static final Value INTAKE_UP = Value.kForward;
+        public static final int INTAKE_SOLENOID_FORWARD = 2;
+        public static final int INTAKE_SOLENOID_REVERSE = 3;
+    }
 
-            public static final int INTAKE_SOLENOID_FORWARD = 2;
-            public static final int INTAKE_SOLENOID_REVERSE = 3;
-        }
+    public static final class IndexerConstants{
+        public static final int DEVICE_ID_INDEXER = 21;
+        public static final int PHOTO_ELECTRIC_CHANEL = 0;
+        public static final int BEAM_BREAK_CHANEL = 0;
+
+
+
+        public static final double FORWARD_SPEED = 0.85;
+        public static final double REVERSE_SPEED = -1;
+        public static final double SLOW_FEED = .5;
+        public static final double SHOOTING_SPEED = 1;
+
+        public static final double FORWARD_RPM = 3000;
+        public static final double REVERSE_RPM = -3000;
+        public static final double SLOW_FEED_RPM = 1000;
+        public static final double SHOOTING_RPM = 3000;
+
+        public static final double INDEXER_AUTO_RUN_TIME = 30/100d;
+
+        public static final double OPEN_LOOP_RAMP = .2;
+
+
+    }
 }

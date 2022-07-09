@@ -18,7 +18,7 @@ public class Indexer extends SubsystemBase{
 
     private CANSparkMax indexerMotor;
     private SparkMaxPIDController controller;
-    private IndexerState indexerState;
+    private IndexerState indexerState = IndexerState.OFF;
     private PhotoElectric photoElectricSensor;
     private BeamBreak beamBreak;
 
@@ -36,7 +36,8 @@ public class Indexer extends SubsystemBase{
         FORWARD_MANUAL,
         EJECT,
         SHOOTING,
-        AUTO_INDEX
+        AUTO_INDEX,
+        OFF
     }
 
     public void setIndexerState(IndexerState wantedState){
@@ -57,6 +58,8 @@ public class Indexer extends SubsystemBase{
                 break;
             case AUTO_INDEX:
                 autoIndex();
+                break;
+            case OFF:
                 break;
         }
 

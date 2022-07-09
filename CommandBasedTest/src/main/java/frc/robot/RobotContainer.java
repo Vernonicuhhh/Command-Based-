@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.commands.DriveFieldOriented;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Intaking.IntakeBall;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -30,6 +32,7 @@ public class RobotContainer {
 
   private final Drive drive = new Drive();
   private final Intake intake = new Intake();
+  private final Indexer indexer = new Indexer();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -51,6 +54,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(driver, Button.kY.value).whenPressed(
       new InstantCommand(intake::toggleIntake, intake));
+    
+    new JoystickButton(driver, Button.kB.value).whenPressed(
+      new IntakeBall(indexer, intake)
+    );
   }
 
   /**

@@ -66,6 +66,9 @@ dependencies {
     simulationRelease wpi.sim.enableRelease()
 
     testImplementation 'junit:junit:4.13.1'
+
+    //auto
+    implementation "com.dacubeking:autobuilder-robot:1.0.0"
 }
 
 // Simulation configuration (e.g. environment variables).
@@ -85,3 +88,10 @@ jar {
 deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
+
+//auto dependencies
+repositories {
+    maven {
+        url "https://maven.dacubeking.com/releases/"
+    }
+}

@@ -24,7 +24,7 @@ public class RobotContainer {
 
   XboxController driver = new XboxController(0);
 
-  private final Drive drive = new Drive();
+  private final Drive drive = Drive.getInstance();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 

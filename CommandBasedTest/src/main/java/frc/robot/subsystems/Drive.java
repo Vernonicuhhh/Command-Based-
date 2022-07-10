@@ -25,9 +25,14 @@ public class Drive  extends SubsystemBase{
 
     private WPI_Pigeon2 gyro;
 
-    SwerveDriveOdometry odometry;
+    private SwerveDriveOdometry odometry;
+    private Field2d field;
 
-    Field2d field;
+    private static Drive instance = new Drive();
+
+    public static Drive getInstance(){
+        return instance;
+    }
 
     public Drive(){
         frontLeft = DriveConstants.FRONT_LEFT_MODULE;

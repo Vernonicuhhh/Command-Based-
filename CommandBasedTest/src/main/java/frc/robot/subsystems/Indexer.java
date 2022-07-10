@@ -5,6 +5,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -60,6 +61,7 @@ public class Indexer extends SubsystemBase{
                 autoIndex();
                 break;
             case OFF:
+                stopIndexer();
                 break;
         }
 
@@ -77,7 +79,16 @@ public class Indexer extends SubsystemBase{
         if(photoElectricSensor.check()==PhotoElectricState.BROKEN && beamBreak.check()==BeamBreakState.OPEN)
             index(false,IndexerConstants.FORWARD_SPEED,IndexerConstants.FORWARD_RPM);
         else
-            stopIndexer();
+            setIndexerState(IndexerState.OFF);
+    }
+
+    private void testAutoIndex(){
+        photoElectricSensor.check();
+        if((Timer.getFPGATimestamp() - photoElectricSensor.getLastOpen()) < SmartDashboard.getNumber("Indexing Time", 1))
+            index(false,IndexerConstants.FORWARD_SPEED,IndexerConstants.FORWARD_RPM);
+        else
+            setIndexerState(IndexerState.OFF);
+            
     }
 
     public void stopIndexer(){

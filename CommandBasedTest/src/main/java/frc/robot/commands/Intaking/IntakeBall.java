@@ -25,8 +25,7 @@ public class IntakeBall extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        intake.stopIntake();
-        indexer.stopIndexer();
+        indexer.setIndexerState(IndexerState.OFF);
         return super.isFinished();
     }
     
